@@ -106,7 +106,6 @@ namespace Aeroporto_OnTheFly
             Data_Cadastro = DateTime.Now;
 
             //Situação
-
             Console.Write("Situação [A] - Ativo ou [I] - Inativo: ");
             Situacao = char.Parse(Console.ReadLine().ToUpper().Trim());
             while ((this.Situacao.CompareTo('A') != 0) && (this.Situacao.CompareTo('I') != 0))
