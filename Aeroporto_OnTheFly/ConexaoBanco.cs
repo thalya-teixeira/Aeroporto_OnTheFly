@@ -142,7 +142,8 @@ namespace Aeroporto_OnTheFly
                         Console.Write($"Razão Social: {reader.GetString(1)}\n");
                         Console.Write($"Data de Abertura: {reader.GetDateTime(2).ToShortDateString()}\n");
                         Console.Write($"Data do Último Voo: {reader.GetDateTime(3).ToShortDateString()}\n");
-                        Console.Write($"Situção: {reader.GetString(4)}\n");
+                        Console.Write($"Data do Cadastro: {reader.GetDateTime(4).ToShortDateString()}\n");
+                        Console.Write($"Situção: {reader.GetString(5)}\n");
 
 
                         Console.WriteLine("\n");

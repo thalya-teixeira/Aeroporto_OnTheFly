@@ -175,7 +175,7 @@ namespace Aeroporto_OnTheFly
             do
             {
 
-                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°° MENU COMPANHIA°°°°°°°°°°°°°°°°°°|");
+                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°°  MENU COMPANHIA  °°°°°°°°°°°°°°°°°°|");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|  1 - Cadastrar Companhia Aerea                      |");
@@ -183,7 +183,7 @@ namespace Aeroporto_OnTheFly
                 Console.WriteLine("|  3 - Exibir Lista de Companhia Aerea                |");
                 Console.WriteLine("|  4 - Alterar dados de Companhia Aerea               |");
                 Console.WriteLine("|                                                     |");
-                Console.WriteLine("|  0 - Encerrar                                      |");
+                Console.WriteLine("|  0 - Encerrar                                       |");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|_____________________________________________________|");
 
@@ -201,6 +201,7 @@ namespace Aeroporto_OnTheFly
             {
                 case "1":
                     companhia.CadastrarCompanhia();
+                    Console.Clear();
                     Menu();
                     break;
 
