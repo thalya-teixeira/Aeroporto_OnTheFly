@@ -177,7 +177,7 @@ namespace Aeroporto_OnTheFly
 
                 using (reader = cmd.ExecuteReader())
                 {
-                    //Inscricao_Aeronave, CNPJ, Capacidade, Ultimo_Venda, Data_Cadastro, Situacao
+                    //Inscricao_Aeronave, CNPJ, Capacidade, Ultimo_Venda, Data_Cadastro, Situacao  NAO TA LENDO AQUI
                     Console.WriteLine("\n\t>>> Aeronaves Localizada(s) <<<\n");
                     while (reader.Read())
                     {
@@ -185,7 +185,7 @@ namespace Aeroporto_OnTheFly
                         Console.Write($"Inscricao: {reader.GetString(0)}\n");
                         Console.Write($"CNPJ: {reader.GetString(1)}\n");
                         Console.Write($"Capacidade: {reader.GetInt32(2)}\n");
-                        Console.Write($"Data do Último Venda: {reader.GetDateTime(3).ToShortDateString()}\n");
+                        Console.Write($"Data da Última Venda: {reader.GetDateTime(3).ToShortDateString()}\n");
                         Console.Write($"Data do Cadastro: {reader.GetDateTime(4).ToShortDateString()}\n");
                         Console.Write($"Situção: {reader.GetString(5)}\n");
 
@@ -262,8 +262,6 @@ namespace Aeroporto_OnTheFly
             }
         }
         #endregion
-
-        
 
         #region Tratamento Dado
         public string TratamentoDado(string dado)

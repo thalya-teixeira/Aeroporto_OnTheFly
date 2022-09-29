@@ -272,16 +272,19 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "2":
+                    aero.LocalizarAeronave();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "3":
+                    aero.ConsultarListaAeronaves(); //NAO TA LENDO
                     Console.Clear();
                     Menu();
                     break;
 
                 case "4":
+                    aero.UpdateAeronave();
                     Console.Clear();
                     Menu();
                     break;

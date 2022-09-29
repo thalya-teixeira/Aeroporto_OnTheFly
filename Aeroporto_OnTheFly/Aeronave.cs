@@ -14,7 +14,7 @@ namespace Aeroporto_OnTheFly
         public DateTime Ultima_Venda { get; set; }
         public DateTime Data_Cadastro { get; set; }
         public char Situacao { get; set; }
-        public CompanhiaAerea Companhia { get; set; }
+        //public CompanhiaAerea Companhia { get; set; }
         public ConexaoBanco Banco { get; set; }
 
 
@@ -60,6 +60,10 @@ namespace Aeroporto_OnTheFly
                 Capacidade = cap;
 
             } while (cap < 100 || cap > 500);
+
+            Ultima_Venda = DateTime.Now;
+
+            Data_Cadastro = DateTime.Now;
 
             //Situação
             Console.Write("Situação [A] - Ativo ou [I] - Inativo: ");
@@ -114,7 +118,7 @@ namespace Aeroporto_OnTheFly
 
             if (opc == 1)
             {
-                String sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultimo_Venda, Data_Cadastro, Situacao From Aeronave WHERE Inscricao_Aeronave=('{this.Inscricao_Aeronave}');";
+                String sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultima_Venda, Data_Cadastro, Situacao FROM Aeronave WHERE Inscricao_Aeronave=('{this.Inscricao_Aeronave}');";
                 conn.LocalizarAeronave(sql);
                 Console.WriteLine("\nAperte ENTER para retornar ao menu.");
                 Console.ReadKey();
@@ -166,7 +170,7 @@ namespace Aeroporto_OnTheFly
                 CNPJ = Console.ReadLine();
             }
 
-            sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultimo_Venda, Data_Cadastro, Situacao From Aeronave WHERE Inscricao_Aeronave=('{this.Inscricao_Aeronave}');";
+            sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultima_Venda, Data_Cadastro, Situacao FROM Aeronave WHERE Inscricao_Aeronave=('{this.Inscricao_Aeronave}');";
             Banco = new ConexaoBanco();
 
             if (!string.IsNullOrEmpty(Banco.LocalizarDadosCompanhia(sql)))
@@ -251,8 +255,9 @@ namespace Aeroporto_OnTheFly
 
             if (opc == 1)
             {
-                String sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultimo_Venda, Data_Cadastro, Situacao From Aeronave WHERE CNPJ=('{this.CNPJ}');";
-                conn.LocalizarDadosCompanhia(sql);
+                String sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultima_Venda, Data_C" +
+                    $"adastro, Situacao FROM Aeronave WHERE Inscricao_Aeronave=('{this.Inscricao_Aeronave}');";
+                conn.LocalizarAeronave(sql);
                 Console.WriteLine("\nAperte ENTER para retornar ao menu.");
                 Console.ReadKey();
             }
