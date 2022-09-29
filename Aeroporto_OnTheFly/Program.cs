@@ -245,9 +245,9 @@ namespace Aeroporto_OnTheFly
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|  1 - Cadastrar Aeronave                             |");
-                Console.WriteLine("|  2 - Selecionar Passageiro Específico               |");
-                Console.WriteLine("|  3 - Exibir Lista de Passageiro                     |");
-                Console.WriteLine("|  4 - Alterar dados de Passageiros                   |");
+                Console.WriteLine("|  2 - Selecionar Aeronave Específico                 |");
+                Console.WriteLine("|  3 - Exibir Lista de Aeronave                       |");
+                Console.WriteLine("|  4 - Alterar dados de Aeronave                      |");
                 Console.WriteLine("|  0 - Encerrar                                       |");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|_____________________________________________________|");

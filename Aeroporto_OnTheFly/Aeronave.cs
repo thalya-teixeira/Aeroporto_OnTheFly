@@ -173,7 +173,7 @@ namespace Aeroporto_OnTheFly
             sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultima_Venda, Data_Cadastro, Situacao FROM Aeronave WHERE Inscricao_Aeronave=('{this.Inscricao_Aeronave}');";
             Banco = new ConexaoBanco();
 
-            if (!string.IsNullOrEmpty(Banco.LocalizarDadosCompanhia(sql)))
+            if (!string.IsNullOrEmpty(Banco.LocalizarAeronave(sql)))
             {
                 Console.WriteLine("\nDeseja efetuar a alteração? 1 - Sim ou 2 - Não");
                 Console.Write("Digite: ");
@@ -204,7 +204,7 @@ namespace Aeroporto_OnTheFly
                             break;
 
                         case 2:
-                            Console.Write("\nAlterar a Data de Abertura: ");
+                            Console.Write("\nAlterar a Data da Última Venda: ");
                             Ultima_Venda = DateTime.Parse(Console.ReadLine());
                             sql = $"Update Aeronave Set Ultima_Venda=('{this.Ultima_Venda}') Where Inscricao_Aeronave=('{this.Inscricao_Aeronave}');";
                             break;
