@@ -230,7 +230,6 @@ namespace Aeroporto_OnTheFly
 
         }
         #endregion
-
         
         #region Menu Aeronaves
         static void Aeronaves()

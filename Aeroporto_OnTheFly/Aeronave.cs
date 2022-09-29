@@ -8,7 +8,7 @@ namespace Aeroporto_OnTheFly
 {
     internal class Aeronave
     {
-        public string Inscricao_Aeronave { get; set; } //PP, PT, PR, PS, BR [XX-XXXX]
+        public string Inscricao_Aeronave { get; set; } //PP, PT, PR, PS, BR [XX-XXX]
         public string CNPJ { get; set; }
         public int Capacidade { get; set; }
         public DateTime Ultima_Venda { get; set; }
@@ -103,13 +103,13 @@ namespace Aeroporto_OnTheFly
         {
             Console.Clear();
             Console.WriteLine("\n\t>>> Localizar Aeronave Especifica <<<");
-            Console.Write("\nDigite o CNPJ: ");
-            CNPJ = Console.ReadLine();
-            while (ValidaCNPJ(this.CNPJ) == false || this.CNPJ.Length < 14)
+            Console.Write("\nDigite o Inscrição Aeronave: ");
+            Inscricao_Aeronave = Console.ReadLine();
+            while (Inscricao_Aeronave == "0") 
             {
-                Console.WriteLine("\nCNPJ inválido. Tente novamente");
-                Console.Write("CNPJ: ");
-                CNPJ = Console.ReadLine();
+                Console.WriteLine("\nInscrição inválida. Tente novamente");
+                Console.Write("Incrição: ");
+                Inscricao_Aeronave = Console.ReadLine();
             }
 
             Console.WriteLine("\nDeseja localizar aeronave no cadastro? Digite 1 - [SIM] 2 - [NÃo]: ");
@@ -141,7 +141,7 @@ namespace Aeroporto_OnTheFly
 
             if (opc == 1)
             {
-                String sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultimo_Venda, Data_Cadastro, Situacao From Aeronave";
+                String sql = $"SELECT Inscricao_Aeronave, CNPJ, Capacidade, Ultima_Venda, Data_Cadastro, Situacao FROM Aeronave";
                 conn.LocalizarAeronave(sql);
                 Console.WriteLine("\nAperte ENTER para retornar ao menu.");
                 Console.ReadKey();
@@ -160,12 +160,12 @@ namespace Aeroporto_OnTheFly
             String sql = "";
             Console.Clear();
             Console.WriteLine("\n>>> Editar Dados da Aeronave <<<");
-            Console.Write("\nInforme o CNPJ: ");
-            CNPJ = Console.ReadLine();
+            Console.Write("\nIncrição: ");
+            Inscricao_Aeronave = Console.ReadLine();
 
-            while (ValidaCNPJ(this.CNPJ) == false || this.CNPJ.Length < 14)
+            while (Inscricao_Aeronave == "0")
             {
-                Console.WriteLine("\nCNPJ INVÁLIDO! Informe novamente.");
+                Console.WriteLine("\nInscricao INVÁLIDO! Informe novamente.");
                 Console.Write("CNPJ: ");
                 CNPJ = Console.ReadLine();
             }
