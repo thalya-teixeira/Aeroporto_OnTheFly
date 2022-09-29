@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -160,6 +161,49 @@ namespace Aeroporto_OnTheFly
         }
         #endregion
 
+        #region Localizar Aeronave
+        public String LocalizarAeronave(String sql)
+        {
+            String recebe = "";
+
+            try
+            {
+
+                Conecta.Open();
+
+                SqlCommand cmd = new SqlCommand(sql, Conecta);
+                cmd.Connection = Conecta;
+                SqlDataReader reader = null;
+
+                using (reader = cmd.ExecuteReader())
+                {
+                    //Inscricao_Aeronave, CNPJ, Capacidade, Ultimo_Venda, Data_Cadastro, Situacao
+                    Console.WriteLine("\n\t>>> Aeronaves Localizada(s) <<<\n");
+                    while (reader.Read())
+                    {
+                        recebe = reader.GetString(0);
+                        Console.Write($"Inscricao: {reader.GetString(0)}\n");
+                        Console.Write($"CNPJ: {reader.GetString(1)}\n");
+                        Console.Write($"Capacidade: {reader.GetInt32(2)}\n");
+                        Console.Write($"Data do Último Venda: {reader.GetDateTime(3).ToShortDateString()}\n");
+                        Console.Write($"Data do Cadastro: {reader.GetDateTime(4).ToShortDateString()}\n");
+                        Console.Write($"Situção: {reader.GetString(5)}\n");
+
+
+                        Console.WriteLine("\n");
+                    }
+                }
+                Conecta.Close();
+
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return recebe;
+        }
+        #endregion
+
         #region Update Dados
         public void UpdateDados(String sql)
         {
@@ -183,10 +227,11 @@ namespace Aeroporto_OnTheFly
         }
         #endregion
 
-        #region Verificar CPF
-        public bool ValidaCPF(string dado, string campo, string tabela)
+        #region Verifica CNPJ Dado Existente
+        public bool VerificaExiste(string dado, string campo, string tabela)
         {
             string queryString = $"SELECT {campo} FROM {tabela} WHERE {campo} = '{dado}'";
+
             try
             {
                 SqlCommand command = new SqlCommand(queryString);
@@ -205,20 +250,20 @@ namespace Aeroporto_OnTheFly
                         Conecta.Close();
                         return false;
                     }
-
                 }
             }
             catch (Exception e)
             {
-                Conecta.Close();
-                Console.WriteLine($"Erro ao acessar o Banco de Dados!!!\n{e.Message}");
-                Console.WriteLine("Tecle Enter para continuar....");
+                Console.Clear();
+                Console.WriteLine($"Erro ao acessar o Banco de Dados! \n{e.Message}");
+                Console.WriteLine("Tecle ENTER para continuar...");
                 Console.ReadKey();
                 return false;
             }
-
         }
         #endregion
+
+        
 
         #region Tratamento Dado
         public string TratamentoDado(string dado)

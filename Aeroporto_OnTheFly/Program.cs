@@ -59,7 +59,7 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "3":
-                    
+                    Aeronaves();
                     Console.Clear();
                     Menu();
                     break;
@@ -231,20 +231,21 @@ namespace Aeroporto_OnTheFly
         }
         #endregion
 
-        /*
+        
         #region Menu Aeronaves
         static void Aeronaves()
         {
+
             Console.Clear();
-            Passageiro pessoa = new();
+            Aeronave aero = new();
             string op;
             do
             {
 
-                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°° MENU PASSAGEIRO °°°°°°°°°°°°°°°°°°|");
+                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°° MENU AERONAVE °°°°°°°°°°°°°°°°°°|");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|                                                     |");
-                Console.WriteLine("|  1 - Cadastrar Passageiro                           |");
+                Console.WriteLine("|  1 - Cadastrar Aeronave                             |");
                 Console.WriteLine("|  2 - Selecionar Passageiro Específico               |");
                 Console.WriteLine("|  3 - Exibir Lista de Passageiro                     |");
                 Console.WriteLine("|  4 - Alterar dados de Passageiros                   |");
@@ -265,25 +266,22 @@ namespace Aeroporto_OnTheFly
             switch (op)
             {
                 case "1":
-                    pessoa.CadastrarPassageiro();
+                    aero.CadastrarAeronave();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "2":
-                    pessoa.LocalizarPassageiro();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "3":
-                    pessoa.ConsultarListaPassageiro();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "4":
-                    pessoa.UpdatePassageiro();
                     Console.Clear();
                     Menu();
                     break;
@@ -295,8 +293,68 @@ namespace Aeroporto_OnTheFly
 
         }
         #endregion
-        */
 
+        #region Menu Voo
+        static void Voo()
+        {
+
+            Voo voo = new();
+
+            Console.Clear();
+            string op;
+            do
+            {
+
+                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°°°° MENU VOO °°°°°°°°°°°°°°°°°°°°°|");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|  1 - Cadastrar Voo                                  |");
+                Console.WriteLine("|  2 - Selecionar Voo Específico                      |");
+                Console.WriteLine("|  3 - Exibir Lista de Voos                           |");
+                Console.WriteLine("|  4 - Alterar dados do Voo                           |");
+                Console.WriteLine("|  0 - Encerrar                                       |");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|_____________________________________________________|");
+
+                op = Console.ReadLine();
+                if (op == "0")
+                    return;
+                if (op != "1" && op != "2" && op != "3" && op != "4" && op != "0")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Opção inválida!");
+                }
+            } while (op != "1" && op != "2" && op != "3" && op != "4" && op != "0");
+
+            switch (op)
+            {
+                case "1":
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "2":
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "3":
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "4":
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "0":
+                    Environment.Exit(0);
+                    break;
+            }
+
+        }
+        #endregion
         static void Main(string[] args)
         {
             //SqlConnection conexaosql = new SqlConnection();

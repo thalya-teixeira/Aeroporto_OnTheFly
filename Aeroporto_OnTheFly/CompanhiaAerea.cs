@@ -128,8 +128,8 @@ namespace Aeroporto_OnTheFly
             CNPJ = Console.ReadLine();
             while (ValidaCNPJ(this.CNPJ) == false || this.CNPJ.Length < 14)
             {
-                Console.WriteLine("\nCPF inválido. Tente novamente");
-                Console.Write("CPF: ");
+                Console.WriteLine("\nCNPJ inválido. Tente novamente");
+                Console.Write("CNPJ: ");
                 CNPJ = Console.ReadLine();
             }
 
@@ -139,7 +139,7 @@ namespace Aeroporto_OnTheFly
 
             if (opc == 1)
             {
-                String sql = $"SELECT CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Data_Cadastro, Situacao From Companhia_Aerea WHERE CPF=('{this.CNPJ}');";
+                String sql = $"SELECT CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Data_Cadastro, Situacao From Companhia_Aerea WHERE CNPJ=('{this.CNPJ}');";
                 conn.LocalizarDadosCompanhia(sql);
                 Console.WriteLine("\nAperte ENTER para retornar ao menu.");
                 Console.ReadKey();

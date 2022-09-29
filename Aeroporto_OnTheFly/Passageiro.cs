@@ -92,7 +92,7 @@ namespace Aeroporto_OnTheFly
             do
             {
                 Console.Write("Sexo [F] Feminino [M] Masculino [N] Prefere não informar: ");
-                Sexo = char.Parse(conn.TratamentoDado(Console.ReadLine()).ToUpper());
+                Sexo = char.Parse(conn.TratamentoDado(Console.ReadLine()).ToUpper().Trim());
                 if (Sexo == '0')
                     return;
 
@@ -284,7 +284,6 @@ namespace Aeroporto_OnTheFly
             }
         }
         #endregion
-
 
         #region Método Para Validar o CPF 
         private static bool ValidaCPF(string vrCPF)
