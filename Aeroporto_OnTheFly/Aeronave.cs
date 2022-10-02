@@ -105,6 +105,7 @@ namespace Aeroporto_OnTheFly
             Console.WriteLine("\n\t>>> Localizar Aeronave Especifica <<<");
             Console.Write("\nDigite o Inscrição Aeronave: ");
             Inscricao_Aeronave = Console.ReadLine();
+
             while (Inscricao_Aeronave == "0") 
             {
                 Console.WriteLine("\nInscrição inválida. Tente novamente");
@@ -240,9 +241,9 @@ namespace Aeroporto_OnTheFly
         {
             Console.Clear();
             Console.WriteLine("\n\t>>> Localizar Aeronave <<<");
-            Console.Write("\nDigite o CNPJ: ");
-            CNPJ = Console.ReadLine();
-            while (ValidaCNPJ(this.CNPJ) == false || this.CNPJ.Length < 14)
+            Console.Write("\nDigite a Inscrição: ");
+            Inscricao_Aeronave = Console.ReadLine();
+            while (Inscricao_Aeronave == "0")
             {
                 Console.WriteLine("\nCNPJ inválido. Tente novamente");
                 Console.Write("CPF: ");
