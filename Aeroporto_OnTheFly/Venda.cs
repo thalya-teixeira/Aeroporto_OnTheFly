@@ -80,7 +80,6 @@ namespace Aeroporto_OnTheFly
 
         }
 
-
         #region Select Venda Especifica
         public void LocalizarVenda()
         {

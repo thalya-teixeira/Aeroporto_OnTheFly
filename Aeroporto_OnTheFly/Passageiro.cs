@@ -268,7 +268,6 @@ namespace Aeroporto_OnTheFly
 
                     Console.WriteLine("\nCadastro alterado com sucesso!!!! Aperte ENTER para retornar ao Menu.");
                     Console.ReadKey();
-                    Banco = new ConexaoBanco();
                     Banco.UpdateDados(sql);
                 }
                 else
