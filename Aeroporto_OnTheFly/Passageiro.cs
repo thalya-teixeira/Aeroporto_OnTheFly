@@ -92,7 +92,7 @@ namespace Aeroporto_OnTheFly
             do
             {
                 Console.Write("Sexo [F] Feminino [M] Masculino [N] Prefere não informar: ");
-                Sexo = char.Parse(conn.TratamentoDado(Console.ReadLine()).ToUpper());
+                Sexo = char.Parse(conn.TratamentoDado(Console.ReadLine()).ToUpper().Trim());
                 if (Sexo == '0')
                     return;
 
@@ -106,7 +106,6 @@ namespace Aeroporto_OnTheFly
             Data_Cadastro = DateTime.Now;
 
             //Situação
-
             Console.Write("Situação [A] - Ativo ou [I] - Inativo: ");
             Situacao = char.Parse(Console.ReadLine().ToUpper().Trim());
             while ((this.Situacao.CompareTo('A') != 0) && (this.Situacao.CompareTo('I') != 0))
@@ -269,7 +268,6 @@ namespace Aeroporto_OnTheFly
 
                     Console.WriteLine("\nCadastro alterado com sucesso!!!! Aperte ENTER para retornar ao Menu.");
                     Console.ReadKey();
-                    Banco = new ConexaoBanco();
                     Banco.UpdateDados(sql);
                 }
                 else
@@ -285,7 +283,6 @@ namespace Aeroporto_OnTheFly
             }
         }
         #endregion
-
 
         #region Método Para Validar o CPF 
         private static bool ValidaCPF(string vrCPF)

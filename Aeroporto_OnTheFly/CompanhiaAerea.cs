@@ -12,6 +12,7 @@ namespace Aeroporto_OnTheFly
         public string RazaoSocial { get; set; }
         public DateTime Data_Abertura { get; set; }
         public DateTime Ultimo_Voo { get; set; }
+        public DateTime Data_Cadastro { get; set; }
         public char Situacao { get; set; }
         public ConexaoBanco Banco { get; set; }
         public CompanhiaAerea()
@@ -19,13 +20,14 @@ namespace Aeroporto_OnTheFly
             
         }
 
+        ConexaoBanco conn = new();
+
         #region Cadastrar Companhia
         public void CadastrarCompanhia()
         {
             Console.Clear();
             Console.WriteLine(">>> CADASTRO DE COMPANHIA AEREA <<<");
 
-            ConexaoBanco conn = new();
 
             bool validacao = false;
 
@@ -38,7 +40,7 @@ namespace Aeroporto_OnTheFly
                     return;
                 if (!ValidaCNPJ(CNPJ))
                 {
-                    Console.WriteLine("Digite um CPF Válido!");
+                    Console.WriteLine("Informe um CNPJ válido!");
                 }
             } while (!ValidaCNPJ(CNPJ));
 
@@ -81,19 +83,18 @@ namespace Aeroporto_OnTheFly
 
             } while (validacao);
 
-            Ultimo_Voo = DateTime.Parse(Console.ReadLine());
+            Ultimo_Voo = DateTime.Now;
+            Data_Abertura = DateTime.Now;
 
             //Situação
-            do
+            Console.Write("Situação [A] - Ativo ou [I] - Inativo: ");
+            Situacao = char.Parse(Console.ReadLine().ToUpper().Trim());
+            while ((this.Situacao.CompareTo('A') != 0) && (this.Situacao.CompareTo('I') != 0))
             {
-                Console.Write("Situação A - Ativo ou I - Inativo: ");
-                Situacao = char.Parse(Console.ReadLine());
-
-                if (Situacao != 'I' && Situacao != 'A')
-                {
-                    Console.WriteLine("Digite um opção válida!!!");
-                }
-            } while (Situacao != 'I' && Situacao != 'A');
+                Console.WriteLine("\nOpção invalida, digite novamente");
+                Console.Write("\nSituação [A] - Ativo ou [I] - Inativo: ");
+                Situacao = char.Parse(Console.ReadLine().ToUpper().Trim());
+            }
 
             //gravar no banco
             Console.WriteLine("");
@@ -104,10 +105,9 @@ namespace Aeroporto_OnTheFly
             if (opc == 1)
             {
                 //CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Situacao
-                string sql = $"INSERT INTO Companhia_Aerea (CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Situacao) VALUES ('{this.CNPJ}' , '{this.RazaoSocial}' , '{this.Data_Abertura.ToString("MM/dd/yyyy")}' , " +
-                $"'{this.Ultimo_Voo.ToString("MM/dd/yyyy")}' , '{this.Situacao}');";
-                Banco = new ConexaoBanco();
-                Banco.InsertDados(sql);
+                string sql = $"INSERT INTO Companhia_Aerea (CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Data_Cadastro, Situacao) VALUES ('{this.CNPJ}' , '{this.RazaoSocial}' , '{this.Data_Abertura}' , " +
+                $"'{this.Ultimo_Voo}' , '{this.Data_Cadastro}' , '{this.Situacao}');";
+                conn.InsertDados(sql);
 
                 Console.WriteLine("Gravação realizada com sucesso! Pressione qualquer tecla para voltar ao menu...");
                 Console.ReadKey();
@@ -128,8 +128,8 @@ namespace Aeroporto_OnTheFly
             CNPJ = Console.ReadLine();
             while (ValidaCNPJ(this.CNPJ) == false || this.CNPJ.Length < 14)
             {
-                Console.WriteLine("\nCPF inválido. Tente novamente");
-                Console.Write("CPF: ");
+                Console.WriteLine("\nCNPJ inválido. Tente novamente");
+                Console.Write("CNPJ: ");
                 CNPJ = Console.ReadLine();
             }
 
@@ -139,9 +139,8 @@ namespace Aeroporto_OnTheFly
 
             if (opc == 1)
             {
-                String sql = $"SELECT CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Situacao From Companhia_Aerea WHERE CPF=('{this.CNPJ}');";
-                Banco = new ConexaoBanco();
-                Banco.LocalizarDadosCompanhia(sql);
+                String sql = $"SELECT CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Data_Cadastro, Situacao From Companhia_Aerea WHERE CNPJ=('{this.CNPJ}');";
+                conn.LocalizarDadosCompanhia(sql);
                 Console.WriteLine("\nAperte ENTER para retornar ao menu.");
                 Console.ReadKey();
             }
@@ -157,16 +156,15 @@ namespace Aeroporto_OnTheFly
         {
             Console.Clear();
             Console.WriteLine("\n\t>>> Lista de Companhia Aerea(s) <<<");
-            Console.WriteLine("\nDeseja continuar? Digite 1- Sim ou 2-Não: ");
+            Console.WriteLine("\nDeseja ver a lista de Companhia Area? Digite 1- Sim ou 2-Não: ");
             Console.Write("Digite: ");
             int opc = int.Parse(Console.ReadLine());
 
             if (opc == 1)
             {
-                String sql = $"SELECT CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Situacao From Companhia_Aerea";
-                Banco = new ConexaoBanco();
-                Banco.LocalizarDadosPassageiro(sql);
-                Console.WriteLine("\nAperte ENTER para retornar ao Menu.");
+                String sql = $"SELECT CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Data_Cadastro, Situacao From Companhia_Aerea";
+                conn.LocalizarDadosCompanhia(sql);
+                Console.WriteLine("\nAperte ENTER para retornar ao menu.");
                 Console.ReadKey();
             }
             else
@@ -182,21 +180,21 @@ namespace Aeroporto_OnTheFly
             int opc = 0;
             String sql = "";
             Console.Clear();
-            Console.WriteLine("\n>>> Editar Dados do Passageiro <<<");
+            Console.WriteLine("\n>>> Editar Dados da Companhia Aerea <<<");
             Console.Write("\nInforme o CNPJ: ");
             CNPJ = Console.ReadLine();
 
             while (ValidaCNPJ(this.CNPJ) == false || this.CNPJ.Length < 14)
             {
                 Console.WriteLine("\nCNPJ INVÁLIDO! Informe novamente.");
-                Console.Write("CPF: ");
+                Console.Write("CNPJ: ");
                 CNPJ = Console.ReadLine();
             }
 
-            sql = $"SELECT CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Situacao From Companhia_Aerea WHERE CPF=('{this.CNPJ}');";
+            sql = $"SELECT CNPJ, RazaoSocial, Data_Abertura, Ultimo_Voo, Data_Cadastro, Situacao From Companhia_Aerea WHERE CNPJ=('{this.CNPJ}');";
             Banco = new ConexaoBanco();
 
-            if (!string.IsNullOrEmpty(Banco.LocalizarDadosPassageiro(sql)))
+            if (!string.IsNullOrEmpty(Banco.LocalizarDadosCompanhia(sql)))
             {
                 Console.WriteLine("\nDeseja efetuar a alteração? 1 - Sim ou 2 - Não");
                 Console.Write("Digite: ");
@@ -221,21 +219,21 @@ namespace Aeroporto_OnTheFly
                     switch (opc)
                     {
                         case 1:
-                            Console.Write("\nAlterar nome: ");
+                            Console.Write("\nAlterar Razão Social: ");
                             RazaoSocial = Console.ReadLine();
-                            sql = $"Update Passageiro Set Nome=('{this.RazaoSocial}') Where CPF=('{this.CNPJ}');";
+                            sql = $"Update Companhia_Aerea Set RazaoSocial=('{this.RazaoSocial}') Where CNPJ=('{this.CNPJ}');";
                             break;
 
                         case 2:
-                            Console.Write("\nAlterar a data de nascimento: ");
+                            Console.Write("\nAlterar a Data de Abertura: ");
                             Data_Abertura = DateTime.Parse(Console.ReadLine());
-                            sql = $"Update Passageiro Set Data_Nascimento=('{this.Data_Abertura}') Where CPF=('{this.CNPJ}');";
+                            sql = $"Update Companhia_Aerea Set Data_Abertura=('{this.Data_Abertura}') Where CNPJ=('{this.CNPJ}');";
                             break;
 
                         case 3:
-                            Console.Write("\nAlterar o sexo (M/F/N): ");
+                            Console.Write("\nAlterar a Situação: [A] / [I] ");
                             Situacao = char.Parse(Console.ReadLine());
-                            sql = $"Update Passageiro Set Sexo=('{this.Situacao}') Where CPF=('{this.CNPJ}');";
+                            sql = $"Update Companhia_Aerea Set Situacao=('{this.Situacao}') Where CNPJ=('{this.CNPJ}');";
                             break;
                     }
 

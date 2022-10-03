@@ -32,17 +32,13 @@ namespace Aeroporto_OnTheFly
                 op = Console.ReadLine();
                 if (op == "0")
                     return;
-                if (op != "1" && op != "2" && op != "3" && op != "4" && op != "5" && op != "6" && op != "7" && op != "8" && op != "0")
+                if (op != "1" && op != "2" && op != "3" && op != "4" && op != "5" && op != "6" && op != "0")
                 {
                     Console.Clear();
                     Console.WriteLine("Opção inválida!");
                 }
 
-            } while (op != "1" && op != "2" && op != "3" && op != "4" && op != "5" && op != "6" && op != "7" && op != "8");
-
-            SqlConnection conexaosql = new SqlConnection();
-            ConexaoBanco conn = new ConexaoBanco();
-            SqlConnection conexaoslq = new SqlConnection(conn.Caminho());
+            } while (op != "1" && op != "2" && op != "3" && op != "4" && op != "5" && op != "6" && op != "0");
 
             switch (op)
             {
@@ -59,42 +55,31 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "3":
-                    
+                    Aeronaves();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "4":
-                    
+                    Voo();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "5":
-                    
+                    Passagem();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "6":
-                    
-                    Console.Clear();
-                    Menu();
-                    break;
-
-                case "7":
-
-                    Console.Clear();
-                    Menu();
-                    break;
-
-                case "8":
-
+                    Venda();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
@@ -158,6 +143,7 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "0":
+                    Console.Clear(); 
                     Environment.Exit(0);
                     break;
             }
@@ -175,7 +161,7 @@ namespace Aeroporto_OnTheFly
             do
             {
 
-                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°° MENU COMPANHIA°°°°°°°°°°°°°°°°°°|");
+                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°°  MENU COMPANHIA  °°°°°°°°°°°°°°°°°°|");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|  1 - Cadastrar Companhia Aerea                      |");
@@ -183,7 +169,7 @@ namespace Aeroporto_OnTheFly
                 Console.WriteLine("|  3 - Exibir Lista de Companhia Aerea                |");
                 Console.WriteLine("|  4 - Alterar dados de Companhia Aerea               |");
                 Console.WriteLine("|                                                     |");
-                Console.WriteLine("|  0 - Encerrar                                      |");
+                Console.WriteLine("|  0 - Encerrar                                       |");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|_____________________________________________________|");
 
@@ -201,6 +187,7 @@ namespace Aeroporto_OnTheFly
             {
                 case "1":
                     companhia.CadastrarCompanhia();
+                    Console.Clear();
                     Menu();
                     break;
 
@@ -223,30 +210,31 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
 
         }
         #endregion
-
-        /*
+        
         #region Menu Aeronaves
         static void Aeronaves()
         {
+
             Console.Clear();
-            Passageiro pessoa = new();
+            Aeronave aero = new();
             string op;
             do
             {
 
-                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°° MENU PASSAGEIRO °°°°°°°°°°°°°°°°°°|");
+                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°° MENU AERONAVE °°°°°°°°°°°°°°°°°°|");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|                                                     |");
-                Console.WriteLine("|  1 - Cadastrar Passageiro                           |");
-                Console.WriteLine("|  2 - Selecionar Passageiro Específico               |");
-                Console.WriteLine("|  3 - Exibir Lista de Passageiro                     |");
-                Console.WriteLine("|  4 - Alterar dados de Passageiros                   |");
+                Console.WriteLine("|  1 - Cadastrar Aeronave                             |");
+                Console.WriteLine("|  2 - Selecionar Aeronave Específico                 |");
+                Console.WriteLine("|  3 - Exibir Lista de Aeronave                       |");
+                Console.WriteLine("|  4 - Alterar dados de Aeronave                      |");
                 Console.WriteLine("|  0 - Encerrar                                       |");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|_____________________________________________________|");
@@ -264,44 +252,240 @@ namespace Aeroporto_OnTheFly
             switch (op)
             {
                 case "1":
-                    pessoa.CadastrarPassageiro();
+                    aero.CadastrarAeronave();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "2":
-                    pessoa.LocalizarPassageiro();
+                    aero.LocalizarAeronave();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "3":
-                    pessoa.ConsultarListaPassageiro();
+                    aero.ConsultarListaAeronaves();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "4":
-                    pessoa.UpdatePassageiro();
+                    aero.UpdateAeronave();
                     Console.Clear();
                     Menu();
                     break;
 
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
 
         }
         #endregion
-        */
+
+        #region Menu Voo
+        static void Voo()
+        {
+            Voo voo = new();
+
+            Console.Clear();
+            string op;
+            do
+            {
+
+                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°°°° MENU VOO °°°°°°°°°°°°°°°°°°°°°|");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|  1 - Cadastrar Voo                                  |");
+                Console.WriteLine("|  2 - Selecionar Voo Específico                      |");
+                Console.WriteLine("|  3 - Exibir Lista de Voos                           |");
+                Console.WriteLine("|  4 - Alterar dados do Voo                           |");
+                Console.WriteLine("|  0 - Encerrar                                       |");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|_____________________________________________________|");
+
+                op = Console.ReadLine();
+                if (op == "0")
+                    return;
+                if (op != "1" && op != "2" && op != "3" && op != "4" && op != "0")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Opção inválida!");
+                }
+            } while (op != "1" && op != "2" && op != "3" && op != "4" && op != "0");
+
+            switch (op)
+            {
+                case "1":
+                    voo.CadastrarVoo();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "2":
+                    voo.LocalizarVoo();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "3":
+                    voo.ConsultarListaVoos();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "4":
+                    voo.UpdateVoo();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "0":
+                    Console.Clear();
+                    Environment.Exit(0);
+                    break;
+            }
+
+        }
+        #endregion
+
+        #region Menu Passagem
+        static void Passagem()
+        {
+            Passagem_Voo pass = new();
+
+            Console.Clear();
+            string op;
+            do
+            {
+
+                Console.WriteLine("\n|°°°°°°°°°°°°°°°°° MENU PASSAGEM °°°°°°°°°°°°°°°°°°°|");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|  1 - Cadastrar Passagem                             |");
+                Console.WriteLine("|  2 - Selecionar Passagem Específica                 |");
+                Console.WriteLine("|  3 - Exibir Lista Passagens                         |");
+                Console.WriteLine("|  4 - Alterar dados da Passagem                      |");
+                Console.WriteLine("|  0 - Encerrar                                       |");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|_____________________________________________________|");
+
+                op = Console.ReadLine();
+                if (op == "0")
+                    return;
+                if (op != "1" && op != "2" && op != "3" && op != "4" && op != "0")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Opção inválida!");
+                }
+            } while (op != "1" && op != "2" && op != "3" && op != "4" && op != "0");
+
+            switch (op)
+            {
+                case "1":
+                    pass.CadastrarPassagem(); 
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "2":
+                    pass.LocalizarPassagem();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "3":
+                    pass.ConsultarListaPassagens();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "4":
+                    pass.UpdatePassagem();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "0":
+                    Console.Clear();
+                    Environment.Exit(0);
+                    break;
+            }
+
+        }
+        #endregion
+
+        #region Menu Venda
+        static void Venda()
+        {
+            Venda venda = new();
+
+            Console.Clear();
+            string op;
+            do
+            {
+
+                Console.WriteLine("\n|°°°°°°°°°°°°°°°°°°° MENU VENDA °°°°°°°°°°°°°°°°°°°°|");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|  1 - Cadastrar Venda                                |");
+                Console.WriteLine("|  2 - Selecionar Venda Específica                    |");
+                Console.WriteLine("|  3 - Exibir Lista Vendas                            |");
+                Console.WriteLine("|  4 - Alterar dados da Venda                         |");
+                Console.WriteLine("|  0 - Encerrar                                       |");
+                Console.WriteLine("|                                                     |");
+                Console.WriteLine("|_____________________________________________________|");
+
+                op = Console.ReadLine();
+                if (op == "0")
+                    return;
+                if (op != "1" && op != "2" && op != "3" && op != "4" && op != "0")
+                {
+                    Console.Clear();
+                    Console.WriteLine("Opção inválida!");
+                }
+            } while (op != "1" && op != "2" && op != "3" && op != "4" && op != "0");
+
+            switch (op)
+            {
+                case "1":
+                    venda.CadastrarVenda();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "2":
+                    venda.LocalizarVenda();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "3":
+                    venda.ConsultarListaVenda();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "4":
+                    venda.UpdateVenda();
+                    Console.Clear();
+                    Menu();
+                    break;
+
+                case "0":
+                    Console.Clear();
+                    Environment.Exit(0);
+                    break;
+            }
+
+        }
+        #endregion
+
+      
 
         static void Main(string[] args)
         {
-            //SqlConnection conexaosql = new SqlConnection();
-            //ConexaoBanco conn = new ConexaoBanco();
-            //SqlConnection conexaoslq = new SqlConnection(conn.Caminho());
-
             Menu();
         }
     }
