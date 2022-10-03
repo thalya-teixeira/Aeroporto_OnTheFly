@@ -10,7 +10,7 @@ namespace Aeroporto_OnTheFly
     internal class ConexaoBanco
     {
         //conectar com o banco de dados // obj de string de conexao // initial catalog é o USE do sql
-        private static string Conexao = "Data Source= localhost; Initial Catalog=ONTHEFLY; User Id = sa; Password = th031425;";
+        private static string Conexao = "Data Source= localhost; Initial Catalog=ONTHEFLY; User Id = sa; Password = ******;";
 
         private static SqlConnection Conecta = new SqlConnection(Conexao);
 
