@@ -181,9 +181,9 @@ namespace Aeroporto_OnTheFly
                             sql = $"Update Passagem_Voo Set Valor=('{this.Valor}') Where ID_Passagem=('{this.ID_Passagem}');";
                             break;
                         case 3:
-                            Console.WriteLine("\nSituação Atual: ");
-                            Situacao = char.Parse(Console.ReadLine());
-                            sql = $"Update Passagem_Voo Set Situacao=('{Situacao}') Where ID_Passagem=('{this.ID_Passagem}');";
+                            EditarSituacaoPassagem();
+                            //Situacao = char.Parse(Console.ReadLine());
+                            //sql = $"Update Passagem_Voo Set Situacao=('{Situacao}') Where ID_Passagem=('{this.ID_Passagem}');";
                             break;
 
                     }
@@ -205,6 +205,79 @@ namespace Aeroporto_OnTheFly
             }
         }
         #endregion
+
+        public void EditarSituacaoPassagem()
+        {
+            int opc = 0;
+            String sql = "";
+
+            Console.Clear();
+            Console.Write("\nDigite a ID da Passagem: ");
+            this.ID_Passagem = Console.ReadLine();
+
+            sql = $"SELECT ID_Passagem, ID_Voo, Data_Ultima_Compra, Valor, Situacao FROM Passagem_Voo WHERE Situacao = 'L';";
+            if (!string.IsNullOrEmpty(conn.LocalizarPassagem(sql)))
+            {
+                Console.WriteLine("\nSelecione a opção que deseja editar");
+                Console.WriteLine("1 - Livre para Reservada");
+                Console.WriteLine("2 - Reservada para Paga");
+                Console.WriteLine("3 - Reservada para Livre");
+                Console.WriteLine("4 - Livre para Paga");
+                Console.Write("\nDigite: ");
+                opc = int.Parse(Console.ReadLine());
+                while (opc < 1 || opc > 5)
+                {
+                    Console.WriteLine("\nDigite uma opção válida:");
+                    Console.Write("\nDigite: ");
+                    opc = int.Parse(Console.ReadLine());
+                }
+                switch (opc)
+                {
+                    case 1:
+                        Console.Write("\nAlterar para: ");
+                        this.Situacao = char.Parse(Console.ReadLine());
+                        sql = $"Update Passagem_Voo Set Situacao = ('{this.Situacao}') Where Situacao= 'L';";
+                        break;
+                    case 2:
+                        Console.Write("\nAlterar para: ");
+                        this.Situacao = char.Parse(Console.ReadLine());
+                        sql = $"Update Passagem_Voo Set Situacao = ('{this.Situacao}') Where Situacao= 'R';";
+                        break;
+                    case 3:
+                        Console.Write("\nAlterar para: ");
+                        this.Situacao = char.Parse(Console.ReadLine());
+                        sql = $"Update Passagem_Voo Set Situacao = ('{this.Situacao}') Where Situacao= 'R';";
+                        break;
+                    case 4:
+                        Console.Write("\nAlterar para: ");
+                        this.Situacao = char.Parse(Console.ReadLine());
+                        sql = $"Update Passagem_Voo Set Situacao = ('{this.Situacao}') Where Situacao= 'L';";
+                        break;
+                }
+                Console.WriteLine("\nSituação de Passagem alterada com sucesso!!!! Aperte ENTER para retornar ao menu.");
+                Console.ReadKey();
+                conn.UpdateDados(sql);
+            }
+            else
+            {
+                Console.WriteLine("\nNÃO foi possível acionar a operação editar situação! Aperte ENTER para retornar ao menu.");
+                Console.ReadKey();
+            }
+
+            Console.WriteLine("Deseja  atualizar a quantidade de assentos ocupados do Voo? Digite 1- Sim / 2-Não: ");
+            Console.Write("Digite: ");
+            opc = int.Parse(Console.ReadLine());
+            if (opc == 1)
+            {
+                Voo editass = new Voo();
+                editass.UpdateVoo();
+            }
+            else
+            {
+                Console.WriteLine("\n Aperte ENTER para retornar ao menu.");
+                Console.ReadKey();
+            }
+        }
 
         #region Gera ID Passagem
         private bool GeraIDVenda()

@@ -329,7 +329,6 @@ namespace Aeroporto_OnTheFly
 
             try
             {
-
                 Conecta.Open();
 
                 SqlCommand cmd = new SqlCommand(sql, Conecta);
@@ -352,9 +351,7 @@ namespace Aeroporto_OnTheFly
                         Console.WriteLine("\n");
                     }
                 }
-
                 Conecta.Close();
-
             }
             catch (SqlException ex)
             {
@@ -383,6 +380,7 @@ namespace Aeroporto_OnTheFly
             {
 
                 Console.WriteLine(ex.Message);
+                Conecta.Close();
             }
         }
         #endregion
@@ -430,8 +428,42 @@ namespace Aeroporto_OnTheFly
             return dadoTratado;
         }
         #endregion
+
+        #region CPF Bloqueado
+        public bool LocalizarBloqueados(string dado, string campo, string tabela)
+        {
+            string queryString = $"SELECT {campo} FROM {tabela} WHERE {campo} = '{dado}'";
+            try
+            {
+                SqlCommand command = new SqlCommand(queryString);
+                command.Connection = Conecta;
+                Conecta.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Conecta.Close();
+                        return true;
+                    }
+                    else
+                    {
+                        Conecta.Close();
+                        return false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Conecta.Close();
+                Console.WriteLine($"Erro ao acessar o Banco de Dados!!!\n{e.Message}");
+                Console.WriteLine("Tecle Enter para continuar....");
+                Console.ReadKey();
+                return false;
+            }
+        }
+        #endregion
     }
-    
+
 }
 
     

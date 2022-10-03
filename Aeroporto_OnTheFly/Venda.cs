@@ -21,6 +21,7 @@ namespace Aeroporto_OnTheFly
 
         ConexaoBanco conn = new();
 
+        #region Cadastrar Venda
         public void CadastrarVenda()
         {
             Console.Clear();
@@ -29,12 +30,22 @@ namespace Aeroporto_OnTheFly
             if (!GeraIDVenda())
                 return;
 
-            Console.WriteLine($"\nO número de ID da sua venda: {this.ID_Venda}");;
+            Console.WriteLine($"\nO número de ID da sua venda: {this.ID_Venda}\nPressione ENTER para continuar...");
+            Console.ReadKey();
+
+            Console.WriteLine("\n\t>>> Escolha o Passageiro: <<<");
+            Console.WriteLine("Pressione ENTER para visualizar a lista de passageiros ATIVOS");
+            Console.ReadKey();
+            String sql = $"SELECT CPF, Nome, DataNasc, Sexo, Ultima_Compra, Data_Cadastro, Situacao From Passageiro WHERE Situacao = 'A';";
+            conn.LocalizarDadosPassageiro(sql);
 
             if (!VerificaCPF())
                 return;
 
             Data_Venda = DateTime.Now;
+
+            Console.Write("Informe o valor unitário: ");
+            float ValorUnitario = float.Parse(Console.ReadLine());
 
             int quantidade;
             do
@@ -46,39 +57,58 @@ namespace Aeroporto_OnTheFly
                 {
                     Console.WriteLine("Impossivel comprar mais que 4 passagens!");
                 }
-
             } while (quantidade > 4 || quantidade <= 0);
 
-            if (!VerifiaIDPassagem())
+            Console.WriteLine("\n\t>>> Escolha a Passagem: <<<");
+            sql = $"SELECT ID_Passagem, ID_Voo, Data_Ultima_Compra, Valor, Situacao From Passagem_Voo WHERE Situacao = 'L';";
+            conn.LocalizarPassagem(sql);
+            if (!VerificaIDPassagem())
                 return;
 
-            Valor_Total = 1000 * quantidade;
+            Valor_Total = ValorUnitario * quantidade;
 
-            Data_Venda = DateTime.Now;
+            for (int i = 1; i <= quantidade; i++)
+            {
+                CadastroItemVenda();
+            }
+        }
+        #endregion
 
+        #region Cadastrar Item Venda
+        public void CadastroItemVenda()
+        {
 
-            //gravar no banco
             Console.WriteLine("\nDeseja efetuar a gravação? Digite 1- Sim / 2-Não: ");
             Console.Write("Digite: ");
             int opc = int.Parse(Console.ReadLine());
-
             if (opc == 1)
             {
-               String sql = $"INSERT INTO Venda (ID_Venda, CPF, Data_Venda, Valor_Total, ID_Passagem) VALUES ('{this.ID_Venda}', " +
+                String sql = $"INSERT INTO Venda (ID_Venda, CPF, Data_Venda, Valor_Total, ID_Passagem) VALUES ('{this.ID_Venda}' , " +
                      $"'{this.CPF}', '{this.Data_Venda}', '{this.Valor_Total}', '{this.ID_Passagem}');";
-
                 conn.InsertDados(sql);
-
-                Console.WriteLine("\nGravação efetuada com sucesso! Aperte ENTER para retornar ao menu.");
+                Console.WriteLine("\nGravação efetuada com sucesso! Aperte ENTER para retornar ao Menu.");
                 Console.ReadKey();
             }
             else
             {
-                Console.WriteLine("\nGravação não efetuada! Aperte ENTER para retornar ao menu.");
+                Console.WriteLine("\nGravação não efetuada! Aperte ENTER para retornar ao Menu.");
                 Console.ReadKey();
             }
-
+            Console.WriteLine("Deseja  atualizar a situação da(s) Passagem(s) selecionada(s)? Digite 1- Sim / 2-Não: ");
+            Console.Write("Digite: ");
+            opc = int.Parse(Console.ReadLine());
+            if (opc == 1)
+            {
+                Passagem_Voo editPass = new();
+                editPass.EditarSituacaoPassagem();
+            }
+            else
+            {
+                Console.WriteLine("\n Aperte ENTER para retornar ao Menu.");
+                Console.ReadKey();
+            }
         }
+        #endregion
 
         #region Select Venda Especifica
         public void LocalizarVenda()
@@ -149,7 +179,7 @@ namespace Aeroporto_OnTheFly
             Console.Write("\nDigite a ID da Venda: ");
             ID_Venda = Console.ReadLine();
 
-            sql = $"SELECT  ID_Venda, CPF, Data_Venda, Valor_Total, ID_Passagem FROM Venda WHERE ID_Venda=('{this.ID_Venda}');";
+            sql = $"SELECT ID_Venda, CPF, Data_Venda, Valor_Total, ID_Passagem FROM Venda WHERE ID_Venda=('{this.ID_Venda}');";
 
             if (!string.IsNullOrEmpty(conn.LocalizarVenda(sql)))
             {
@@ -164,7 +194,7 @@ namespace Aeroporto_OnTheFly
                     Console.WriteLine("2 - Valor Total ");
                     Console.Write("\nDigite: ");
                     opc = int.Parse(Console.ReadLine());
-                    while (opc < 1 || opc > 5)
+                    while (opc < 1 || opc > 2)
                     {
                         Console.WriteLine("\nDigite uma opção válida:");
                         Console.Write("\nDigite: ");
@@ -177,12 +207,12 @@ namespace Aeroporto_OnTheFly
                         case 1:
                             Console.Write("\nAlterar Data da Venda: ");
                             Data_Venda = DateTime.Parse(Console.ReadLine());
-                            sql = $"Update Venda SET Data_Venda=('{this.Data_Venda}') WHERE ID_Voo=('{this.ID_Venda}');";
+                            sql = $"Update Venda SET Data_Venda=('{this.Data_Venda}') WHERE ID_Venda=('{this.ID_Venda}');";
                             break;
                         case 2:
                             Console.Write("\nAlterar valor total: ");
                             Valor_Total = float.Parse(Console.ReadLine());
-                            sql = $"Update Venda SET Valor_Total=('{this.Valor_Total}') WHERE ID_Voo=('{this.ID_Venda}');";
+                            sql = $"Update Venda SET Valor_Total=('{this.Valor_Total}') WHERE ID_Venda=('{this.ID_Venda}');";
                             break;
                     }
                     Console.WriteLine("\nCadastro alterado com sucesso!!!! Aperte ENTER para retornar ao menu.");
@@ -191,13 +221,13 @@ namespace Aeroporto_OnTheFly
                 }
                 else
                 {
-                    Console.WriteLine("\nNÃO foi possível acionar a operação editar cadastro! Aperte ENTER para retornar ao menu.");
+                    Console.WriteLine("\nNÃO foi possível adicionar a operação editar no cadastro! Aperte ENTER para retornar ao menu.");
                     Console.ReadKey();
                 }
             }
             else
             {
-                Console.WriteLine("\nVoo Não Encontrado! Aperte ENTER para retornar ao menu.");
+                Console.WriteLine("\nVenda não encontrada! Aperte ENTER para retornar ao menu.");
                 Console.ReadKey();
             }
         }
@@ -208,14 +238,25 @@ namespace Aeroporto_OnTheFly
         {
             do
             {
-                Console.Write("\nDigite o CPF do passageiro: ");
+                Console.Write("\nDigite o CPF do Passageiro : ");
                 CPF = Console.ReadLine();
 
-                if (conn.VerificaExiste(CPF, "CPF", "Passageiro") == false)
-                {
-                    Console.WriteLine("O CPF não existe no cadastro de passageiros. Informe um CPF válido");
-                }
 
+                Console.WriteLine("\n\tVerificação de CPF Restrito: ");
+                if (conn.LocalizarBloqueados(CPF, "CPF", "Cadastro_Restrito"))
+                {
+                    Console.WriteLine("CPF Restrito! Não é possível efetuar venda. Tecle Enter para retornar ao menu!");
+                    Console.ReadKey();
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("CPF Apto!!!!");
+                    if (conn.VerificaExiste(CPF, "CPF", "Passageiro") == false)
+                    {
+                        Console.WriteLine("O CPF não existe no cadastro de passageiros. Informe um CPF válido");
+                    }
+                }
             } while (conn.VerificaExiste(CPF, "CPF", "Passageiro") == false);
 
             Console.WriteLine($"\nCPF do passageiro encontrado: {this.CPF} continue sua compra...");
@@ -225,7 +266,7 @@ namespace Aeroporto_OnTheFly
         #endregion
 
         #region Verifica ID Passagem
-        private bool VerifiaIDPassagem()
+        private bool VerificaIDPassagem()
         {
             do
             {
@@ -246,22 +287,13 @@ namespace Aeroporto_OnTheFly
         #endregion
 
         #region Gera ID Venda
-        private bool GeraIDVenda()
+        public bool GeraIDVenda()
         {
-            Console.WriteLine("O ID da sua venda será gerado...\nPressione qualquer tecla para continuar ");
-            ID_Venda = conn.TratamentoDado(Console.ReadLine().ToUpper().Trim().Replace("-", ""));
-
-            while (true)
+            for (int i = 1; i <= 999; i++)
             {
-                Random random = new Random();
-                ID_Venda = random.Next(0001, 99999).ToString("00000");
-
-                if (conn.VerificaExiste(ID_Venda, "ID_Venda", "Venda"))
+                if (!conn.VerificaExiste(i.ToString(), "ID_Venda", "Venda"))
                 {
-                    Console.WriteLine("ID venda já cadastrado!!!");
-                }
-                else
-                {
+                    ID_Venda = i.ToString();
                     break;
                 }
             }

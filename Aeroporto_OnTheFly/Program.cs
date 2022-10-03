@@ -32,17 +32,13 @@ namespace Aeroporto_OnTheFly
                 op = Console.ReadLine();
                 if (op == "0")
                     return;
-                if (op != "1" && op != "2" && op != "3" && op != "4" && op != "5" && op != "6" && op != "7" && op != "8" && op != "0")
+                if (op != "1" && op != "2" && op != "3" && op != "4" && op != "5" && op != "6" && op != "0")
                 {
                     Console.Clear();
                     Console.WriteLine("Opção inválida!");
                 }
 
-            } while (op != "1" && op != "2" && op != "3" && op != "4" && op != "5" && op != "6" && op != "7" && op != "8");
-
-            SqlConnection conexaosql = new SqlConnection();
-            ConexaoBanco conn = new ConexaoBanco();
-            SqlConnection conexaoslq = new SqlConnection(conn.Caminho());
+            } while (op != "1" && op != "2" && op != "3" && op != "4" && op != "5" && op != "6" && op != "0");
 
             switch (op)
             {
@@ -82,19 +78,8 @@ namespace Aeroporto_OnTheFly
                     Menu();
                     break;
 
-                case "7":
-
-                    Console.Clear();
-                    Menu();
-                    break;
-
-                case "8":
-
-                    Console.Clear();
-                    Menu();
-                    break;
-
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
@@ -158,6 +143,7 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "0":
+                    Console.Clear(); 
                     Environment.Exit(0);
                     break;
             }
@@ -224,6 +210,7 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
@@ -277,7 +264,7 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "3":
-                    aero.ConsultarListaAeronaves(); //NAO TA LENDO
+                    aero.ConsultarListaAeronaves();
                     Console.Clear();
                     Menu();
                     break;
@@ -289,6 +276,7 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
@@ -354,6 +342,7 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
@@ -419,6 +408,7 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
@@ -440,7 +430,7 @@ namespace Aeroporto_OnTheFly
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|                                                     |");
                 Console.WriteLine("|  1 - Cadastrar Venda                                |");
-                Console.WriteLine("|  2 - Selecionar Venda    Específica                 |");
+                Console.WriteLine("|  2 - Selecionar Venda Específica                    |");
                 Console.WriteLine("|  3 - Exibir Lista Vendas                            |");
                 Console.WriteLine("|  4 - Alterar dados da Venda                         |");
                 Console.WriteLine("|  0 - Encerrar                                       |");
@@ -484,12 +474,15 @@ namespace Aeroporto_OnTheFly
                     break;
 
                 case "0":
+                    Console.Clear();
                     Environment.Exit(0);
                     break;
             }
 
         }
         #endregion
+
+      
 
         static void Main(string[] args)
         {

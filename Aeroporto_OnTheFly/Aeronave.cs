@@ -42,8 +42,9 @@ namespace Aeroporto_OnTheFly
             Console.Clear();
             Console.WriteLine(">>> CADASTRO DE AERONAVE <<<");
 
-            if (!CadastroCNPJ())
+            if (!VerificaCNPJ())
                 return;
+
             if (!CadastraIdAeronave())
                 return;
 
@@ -269,6 +270,38 @@ namespace Aeroporto_OnTheFly
         }
         #endregion
 
+        #region Verifica CNPJ Existe
+        private bool VerificaCNPJ()
+        {
+            do
+            {
+                Console.Write("\nDigite o CNPJ da Companhia Aerea : ");
+                CNPJ = Console.ReadLine();
+
+
+                Console.WriteLine("\n\tVerificação de CNPJ Bloqueado: ");
+                if (conn.LocalizarBloqueados(CNPJ, "CNPJ", "Cadastro_Bloqueado"))
+                {
+                    Console.WriteLine("CNPJ Bloqueado! Não é possível efetuar venda. Tecle Enter para retornar ao menu!");
+                    Console.ReadKey();
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine("CNPJ Apto!!!!");
+                    if (conn.VerificaExiste(CNPJ, "CNPJ", "Companhia_Aerea") == false)
+                    {
+                        Console.WriteLine("O CNPJ não existe no cadastro de passageiros. Informe um CNPJ válido");
+                    }
+                }
+            } while (conn.VerificaExiste(CNPJ, "CNPJ", "Companhia_Aerea") == false);
+
+            Console.WriteLine($"\nCPF do passageiro encontrado: {this.CNPJ} continue sua compra...");
+
+            return true;
+        }
+        #endregion
+
         #region Verifica O CNPJ se é válido
         public bool ValidaCNPJ(string vrCNPJ)
 
@@ -366,30 +399,30 @@ namespace Aeroporto_OnTheFly
         }
         #endregion
 
-        #region CadastroCNPJ
-        private bool CadastroCNPJ()
-        {
-            do
-            {
-                Console.Write("Informe o CNPJ de qual a aeronave pertence [Digite 0 para sair]: ");
-                CNPJ = conn.TratamentoDado(Console.ReadLine().Replace(".", "").Replace("-", "").Replace("/", ""));
+        //#region CadastroCNPJ
+        //private bool CadastroCNPJ()
+        //{
+        //    do
+        //    {
+        //        Console.Write("Informe o CNPJ de qual a aeronave pertence [Digite 0 para sair]: ");
+        //        CNPJ = conn.TratamentoDado(Console.ReadLine().Replace(".", "").Replace("-", "").Replace("/", ""));
 
-                if (CNPJ == "0")
-                    return false;
+        //        if (CNPJ == "0")
+        //            return false;
 
-                if (conn.VerificaExiste(CNPJ, "CNPJ", "Companhia_Aerea"))
-                {
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine("CNPJ NÃO ENCONTRADO");
-                    CNPJ = "";
-                }
-            } while (CNPJ.Length == 0);
-            return false;
-        }
-        #endregion
+        //        if (conn.VerificaExiste(CNPJ, "CNPJ", "Companhia_Aerea"))
+        //        {
+        //            return true;
+        //        }
+        //        else
+        //        {
+        //            Console.WriteLine("CNPJ NÃO ENCONTRADO");
+        //            CNPJ = "";
+        //        }
+        //    } while (CNPJ.Length == 0);
+        //    return false;
+        //}
+        //#endregion
 
     }
 }
